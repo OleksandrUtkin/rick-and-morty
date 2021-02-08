@@ -1,0 +1,21 @@
+.pagination {
+    height: 2vw;
+    margin: 1vw 0;
+    display: flex;
+    justify-content: center;
+    &__btn {
+        height: 100%;
+        width: 3vw;
+        background: transparent;
+        border: 1px solid #8c8c8c;
+        font-size: 1vw;
+        cursor: pointer;
+        &_disabled {
+            pointer-events: none;
+            opacity: 0.4;
+        }
+        &:first-child {
+            margin-right: 10px;
+        }
+    }
+}

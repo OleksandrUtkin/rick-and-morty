@@ -1,0 +1,34 @@
+.character {
+    &__li {
+        height: 12vw;
+        display: flex;
+        border: 1px solid #282828;
+        &:not(:last-child) {
+            margin-bottom: 1vw;
+        }
+    }
+    &__info {
+        padding-top: 5px;
+    }
+    &__photo-wrap {
+        margin-right: 15px;
+        height: 100%;
+        width: 12vw;
+    }
+    &__photo {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+    }
+    &__name, &__location, &__status {
+        span {
+            color: #ffffff;
+        }
+    }
+    &__name {
+        margin-bottom: 10px;
+    }
+    &__location {
+        margin-bottom: 10px;
+    }
+}

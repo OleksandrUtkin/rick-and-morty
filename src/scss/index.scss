@@ -1,0 +1,30 @@
+* {
+  margin: 0;
+  padding: 0;
+  color: #dcdcdc;
+  font-size: 1.2vw;
+  outline: none;
+}
+ul {
+  list-style-type: none;
+}
+a {
+  text-decoration: none;
+}
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+main {
+  padding: 6vw 3vw 2vw;
+  background: #1f1f1f;
+  min-height: calc(100vh - 4vw);
+  font-size: 1.2vw;
+}
+
+@import "./components/header";
+@import "./components/characters";
+@import "./components/pagination";
