@@ -3,6 +3,7 @@
         height: 12vw;
         display: flex;
         border: 1px solid #282828;
+        cursor: pointer;
         &:not(:last-child) {
             margin-bottom: 1vw;
         }
@@ -23,6 +24,7 @@
     &__name, &__location, &__status {
         span {
             color: #ffffff;
+            font-weight: 600;
         }
     }
     &__name {

@@ -18,4 +18,16 @@
             margin-right: 10px;
         }
     }
+    &__btn-page {
+        margin-right: 10px;
+        height: 2vw;
+        width: 2vw;
+        background: transparent;
+        border: 1px solid #8c8c8c;
+        font-size: 1vw;
+        cursor: pointer;
+        &_active {
+            background: #383838;
+        }
+    }
 }
