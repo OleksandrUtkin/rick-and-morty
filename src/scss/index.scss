@@ -4,10 +4,11 @@
   color: #dcdcdc;
   font-size: 1.2vw;
   outline: none;
+  box-sizing: border-box;
+  border: none;
 }
 button {
   background: transparent;
-  border: none;
 }
 ul {
   list-style-type: none;
@@ -23,13 +24,19 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 main {
-  padding: 6vw 3vw 2vw;
+  padding: 4vw 3vw 2vw;
   background: #1f1f1f;
-  min-height: calc(100vh - 4vw);
+  min-height: 100vh;
   font-size: 1.2vw;
 }
+.loading-characters {
+  margin-top: 60px;
+}
 
+@import "./mixins/mixins";
 @import "./components/header";
 @import "./components/characters";
 @import "./components/pagination";
 @import "./components/full-info";
+@import "./components/filter";
+@import "components/number-of-results";

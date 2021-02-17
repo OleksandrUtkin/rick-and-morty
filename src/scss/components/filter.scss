@@ -1,0 +1,105 @@
+.filter {
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+    &__name {
+        display: flex;
+        align-items: center;
+        margin-right: 25px;
+        span {
+            margin-right: 15px;
+        }
+    }
+    input {
+        height: 30px;
+        width: 180px;
+        padding: 10px;
+        background: #313131;
+        &::-webkit-input-placeholder {
+            @include filter-placeholder;
+        }
+        &::-moz-placeholder {
+            @include filter-placeholder;
+        }
+        &:-moz-placeholder {
+            @include filter-placeholder;
+        }
+        &:-ms-input-placeholder {
+            @include filter-placeholder;
+        }
+    }
+    &__value {
+        position: relative;
+        height: 30px;
+        width: 180px;
+        border: 1px solid #dcdcdc;
+        padding: 0 10px;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        line-height: 100%;
+        &:not(:last-child) {
+            margin-right: 25px;
+        }
+        &:after {
+            content: url("../../icons/arrowdown.svg");
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+        }
+    }
+    &__dropdown {
+        width: 180px;
+        position: absolute;
+        top: 30px;
+        left: 0;
+        background: #1f1f1f;
+    }
+    &__dropdown-item {
+        padding: 0 10px;
+        display: flex;
+        align-items: center;
+        height: 30px;
+        cursor: pointer;
+        background: #313131;
+        transition: background-color .2s ease-in;
+        &:hover {
+            background: transparent;
+        }
+    }
+    &__clear {
+        position: relative;
+        height: 20px;
+        width: 20px;
+        margin-left: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        &:hover {
+            div {
+                background: #ffffff;
+            }
+        }
+        div {
+            width: 17px;
+            height: 2px;
+            background: #dcdcdc;
+            position: absolute;
+            transform-origin: left;
+            transition: background-color 0.2s ease-in;
+            &:first-child {
+                transform: rotate(45deg);
+                top: 3px;
+                left: 4px;
+            }
+            &:last-child {
+                transform: rotate(-45deg);
+                bottom: 3px;
+                left: 4px;
+            }
+        }
+    }
+}

@@ -1,17 +1,18 @@
 import React, {useEffect, useState} from 'react';
 import Pagination from "../../UI/Pagination";
 import FullInfo from "../../UI/FullInfo";
+import Filter from "../../UI/Filter";
+import NumberOfResults from "../../UI/NumberOfResults";
 
 const Characters = () => {
+    const [numberOfResults, setNumberOfResults] = useState(null);
     const [elRefs, setElRefs] = React.useState([]);
-    const [allCharactersValue, setAllCharactersValue] = useState(null);
-    const [characters, setCharacters] = useState([]);
     const [pages, setPages] = useState(null);
     const [showFullInfo, setShowFullInfo] = useState(false);
-    const [charactersCountValue, setCharactersCountValue] = useState(10);
-    const step = 10;
-
+    const [currentPage, setCurrentPage] = useState(1);
     const [isLoadingFullInfo, setIsLoadingFullInfo] = useState(false);
+
+    // full info
     const [characterName, setCharacterName] = useState(null);
     const [characterGender, setCharacterGender] = useState(null);
     const [characterSpecies, setCharacterSpecies] = useState(null);
@@ -21,33 +22,45 @@ const Characters = () => {
     const [characterStatus, setCharacterStatus] = useState(null);
     const [characterPhoto, setCharacterPhoto] = useState(null);
 
+    // filter
+    const filterOptions = {
+        'Name': true,
+        'Gender': ['Female', 'Male', 'Genderless', 'Unknown'],
+        'Status': ['Alive', 'Dead', 'Unknown']
+    }
+    const filterValues = {
+        "Species": "?species=",
+        "Status": "?status=",
+        "Gender": "?gender="
+    }
+    const [filterQuery, setFilterQuery] = useState('');
+
+    const [charactersArr, setCharactersArr] = useState([]);
+    const [fetchPages, setFetchPages] = useState(null);
+    const [currentFetchPage, setCurrentFetchPage] = useState(1);
+    const [isLoadingAllCharacters, setIsLoadingAllCharacters] = useState(false);
+
     useEffect(() => {
         setElRefs(elRefs => (
-            Array(characters.length).fill().map((_, i) => elRefs[i] || React.createRef())
+            Array(charactersArr.length).fill().map((_, i) => elRefs[i] || React.createRef())
         ));
-    }, [characters]);
+    }, [charactersArr]);
 
+    // get all characters
     useEffect(() => {
-       const getAllCharacters = async () => {
-           const response = await fetch('https://rickandmortyapi.com/api/character/');
-           await response.json().then(data => {
-               setAllCharactersValue(data.info.count);
-               setPages(Math.ceil(data.info.count / step));
-           })
-       }
-        getAllCharacters()
-    }, []);
-
-    useEffect(() => {
-        const charactersCountArr = [];
+        setIsLoadingAllCharacters(true);
         const getCharacters = async () => {
-            for (let i = charactersCountValue - step + 1; i <= charactersCountValue; i++) await charactersCountArr.push(i);
-            const response = await fetch(`https://rickandmortyapi.com/api/character/${charactersCountArr}`);
-            await response.json().then(data => setCharacters(data));
-            await window.scrollTo(0, 0);
+            const response = await fetch(`https://rickandmortyapi.com/api/character/?page=${currentPage}`);
+            await response.json().then(data => {
+                setPages(data.info.pages);
+                setCharactersArr(data.results);
+                setNumberOfResults(data.info.count);
+            })
+            window.scrollTo(0, 0);
+            await setIsLoadingAllCharacters(false);
         }
         getCharacters();
-    }, [charactersCountValue]);
+    }, [currentPage]);
 
     const showFullInfoFunc = (id) => {
         setShowFullInfo(true);
@@ -69,24 +82,29 @@ const Characters = () => {
         getCharacterInfo();
     }
 
+    if (isLoadingAllCharacters) return <p className='loading-characters'>Loading...</p>
     return (
         <>
+            <Filter
+                filterOptions={filterOptions}
+            />
+            <NumberOfResults numberOfResults={numberOfResults}/>
             <ul className='character'>
-                {characters.map((character, index) =>
+                {charactersArr.map((character, index) =>
                     <li
                         ref={elRefs[index]}
                         key={character.id}
                         className='character__li'
                         onClick={() => showFullInfoFunc(character.id)}
                     >
-                            <div className="character__photo-wrap">
-                                <img className='character__photo' src={character.image} alt={character.name}/>
-                            </div>
-                            <div className='character__info'>
-                                <p className='character__name'>Name: <span>{character.name}</span></p>
-                                <p className='character__location'>Location: <span>{character.location.name}</span></p>
-                                <p className='character__status'>Status: <span>{character.status}</span></p>
-                            </div>
+                        <div className="character__photo-wrap">
+                            <img className='character__photo' src={character.image} alt={character.name}/>
+                        </div>
+                        <div className='character__info'>
+                            <p className='character__name'>Name: <span>{character.name}</span></p>
+                            <p className='character__location'>Location: <span>{character.location.name}</span></p>
+                            <p className='character__status'>Status: <span>{character.status}</span></p>
+                        </div>
                     </li>
                 )}
             </ul>
@@ -105,11 +123,9 @@ const Characters = () => {
                 characterPhoto={characterPhoto}
             />}
             {pages > 1 && <Pagination
-                allItemsValue = {allCharactersValue}
-                itemsCountValue={charactersCountValue}
-                setItemsCountValue={setCharactersCountValue}
-                step={step}
                 pages={pages}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
             />}
         </>
     );

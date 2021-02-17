@@ -1,29 +1,29 @@
-import React, {useState} from 'react';
+import React from 'react';
 
-const Pagination = ({allItemsValue, pages, step, itemsCountValue, setItemsCountValue}) => {
-    const [currentPage, setCurrentPage] = useState(1);
+const Pagination = ({
+    pages,
+    currentPage,
+    setCurrentPage
+}) => {
     const pagesArr = [];
     for (let i = 1; i <= pages; i++) pagesArr.push(i);
 
     const prevBtnClick = () => {
-        setItemsCountValue(itemsCountValue - step)
         setCurrentPage(currentPage - 1)
     }
 
     const nextBtnClick = () => {
-        setItemsCountValue(itemsCountValue + step)
         setCurrentPage(currentPage + 1)
     }
 
     const onPageBtnClick = (page) => {
-        setItemsCountValue(page * step);
         setCurrentPage(page);
     }
 
     return (
         <div className='pagination'>
             <button
-                className={itemsCountValue > step
+                className={currentPage >= 2
                     ? 'pagination__btn'
                     : 'pagination__btn pagination__btn_disabled'
                 }
@@ -50,7 +50,7 @@ const Pagination = ({allItemsValue, pages, step, itemsCountValue, setItemsCountV
                     </button>
             )}
             <button
-                className={allItemsValue > itemsCountValue
+                className={currentPage < pages
                     ? 'pagination__btn'
                     : 'pagination__btn pagination__btn_disabled'
                 }
