@@ -4,15 +4,8 @@ const FullInfo = ({
     showFullInfo,
     setShowFullInfo,
     elRefs,
-    characterName,
-    characterGender,
-    characterSpecies,
-    characterOrigin,
-    characterType,
-    characterLocation,
-    characterStatus,
     isLoadingFullInfo,
-    characterPhoto
+    characterFullInfo
 }) => {
     const fullInfoRef = useRef(null);
 
@@ -41,16 +34,16 @@ const FullInfo = ({
             {isLoadingFullInfo ? <p>Loading...</p> :
             <div className="full-info__content">
                 <div className="full-info__photo-wrap">
-                    <img src={characterPhoto} alt="characterName"/>
+                    <img src={characterFullInfo.characterPhoto} alt="characterName"/>
                 </div>
                 <div className="full-info__info">
-                    {characterName && <p>Name: <span>{characterName}</span></p>}
-                    {characterGender && <p>Gender: <span>{characterGender}</span></p>}
-                    {characterSpecies && <p>Species: <span>{characterSpecies}</span></p>}
-                    {characterOrigin && <p>Origin: <span>{characterOrigin}</span></p>}
-                    {characterType && <p>Type: <span>{characterType}</span></p>}
-                    {characterLocation && <p>Location: <span>{characterLocation}</span></p>}
-                    {characterStatus && <p>Status: <span>{characterStatus}</span></p>}
+                    {characterFullInfo.characterName && <p>Name: <span>{characterFullInfo.characterName}</span></p>}
+                    {characterFullInfo.characterGender && <p>Gender: <span>{characterFullInfo.characterGender}</span></p>}
+                    {characterFullInfo.characterSpecies && <p>Species: <span>{characterFullInfo.characterSpecies}</span></p>}
+                    {characterFullInfo.characterOrigin && <p>Origin: <span>{characterFullInfo.characterOrigin}</span></p>}
+                    {characterFullInfo.characterType && <p>Type: <span>{characterFullInfo.characterType}</span></p>}
+                    {characterFullInfo.characterLocation && <p>Location: <span>{characterFullInfo.characterLocation}</span></p>}
+                    {characterFullInfo.characterStatus && <p>Status: <span>{characterFullInfo.characterStatus}</span></p>}
                 </div>
             </div>
             }

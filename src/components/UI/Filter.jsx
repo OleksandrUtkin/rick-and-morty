@@ -10,6 +10,8 @@ const Filter = ({filterOptions}) => {
     const clearGenderFilterRef = useRef(null);
     const clearStatusFilterRef = useRef(null);
 
+    console.log('filter rendered')
+
     const clickOnGenderFilter = (event) => {
         if (clearGenderFilterRef.current && clearGenderFilterRef.current.contains(event.target)) {
             setShowGenderDropdown(false);

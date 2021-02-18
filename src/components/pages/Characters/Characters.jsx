@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import Pagination from "../../UI/Pagination";
 import FullInfo from "../../UI/FullInfo";
 import Filter from "../../UI/Filter";
@@ -13,21 +13,24 @@ const Characters = () => {
     const [isLoadingFullInfo, setIsLoadingFullInfo] = useState(false);
 
     // full info
-    const [characterName, setCharacterName] = useState(null);
-    const [characterGender, setCharacterGender] = useState(null);
-    const [characterSpecies, setCharacterSpecies] = useState(null);
-    const [characterOrigin, setCharacterOrigin] = useState(null);
-    const [characterType, setCharacterType] = useState(null);
-    const [characterLocation, setCharacterLocation] = useState(null);
-    const [characterStatus, setCharacterStatus] = useState(null);
-    const [characterPhoto, setCharacterPhoto] = useState(null);
+    const [characterFullInfo, setCharactersFullInfo] = useState({
+        characterName: null,
+        characterGender: null,
+        characterSpecies: null,
+        characterOrigin: null,
+        characterType: null,
+        characterLocation: null,
+        characterStatus: null,
+        characterPhoto: null,
+    })
 
     // filter
-    const filterOptions = {
+    const filterOptions = useRef({
         'Name': true,
         'Gender': ['Female', 'Male', 'Genderless', 'Unknown'],
         'Status': ['Alive', 'Dead', 'Unknown']
-    }
+    });
+
     const filterValues = {
         "Species": "?species=",
         "Status": "?status=",
@@ -38,7 +41,7 @@ const Characters = () => {
     const [charactersArr, setCharactersArr] = useState([]);
     const [fetchPages, setFetchPages] = useState(null);
     const [currentFetchPage, setCurrentFetchPage] = useState(1);
-    const [isLoadingAllCharacters, setIsLoadingAllCharacters] = useState(false);
+    const [isLoadingAllCharacters, setIsLoadingAllCharacters] = useState(true);
 
     useEffect(() => {
         setElRefs(elRefs => (
@@ -62,31 +65,34 @@ const Characters = () => {
         getCharacters();
     }, [currentPage]);
 
+    // show full info
     const showFullInfoFunc = (id) => {
-        setShowFullInfo(true);
         setIsLoadingFullInfo(true);
+        setShowFullInfo(true);
         const getCharacterInfo = async () => {
             const response = await fetch(`https://rickandmortyapi.com/api/character/${id}`);
             await response.json().then(data => {
-                setCharacterName(data.name);
-                setCharacterGender(data.gender);
-                setCharacterSpecies(data.species);
-                setCharacterOrigin(data.name);
-                setCharacterType(data.type);
-                setCharacterLocation(data.location.name);
-                setCharacterStatus(data.status);
-                setCharacterPhoto(data.image);
+                setCharactersFullInfo({
+                    characterName: data.name,
+                    characterGender: data.gender,
+                    characterSpecies: data.species,
+                    characterType: data.type,
+                    characterLocation: data.location.name,
+                    characterStatus: data.status,
+                    characterPhoto: data.image,
+                })
             });
             await setIsLoadingFullInfo(false);
         }
         getCharacterInfo();
     }
 
+    console.log(isLoadingAllCharacters);
     if (isLoadingAllCharacters) return <p className='loading-characters'>Loading...</p>
     return (
         <>
             <Filter
-                filterOptions={filterOptions}
+                filterOptions={filterOptions.current}
             />
             <NumberOfResults numberOfResults={numberOfResults}/>
             <ul className='character'>
@@ -112,15 +118,8 @@ const Characters = () => {
                 showFullInfo={showFullInfo}
                 setShowFullInfo={setShowFullInfo}
                 elRefs={elRefs}
-                characterName={characterName}
-                characterGender={characterGender}
-                characterSpecies={characterSpecies}
-                characterOrigin={characterOrigin}
-                characterType={characterType}
-                characterLocation={characterLocation}
-                characterStatus={characterStatus}
+                characterFullInfo={characterFullInfo}
                 isLoadingFullInfo={isLoadingFullInfo}
-                characterPhoto={characterPhoto}
             />}
             {pages > 1 && <Pagination
                 pages={pages}
