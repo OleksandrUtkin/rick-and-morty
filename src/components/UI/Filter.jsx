@@ -1,16 +1,19 @@
 import React, {useState, useRef, useEffect} from 'react';
 
-const Filter = ({filterOptions}) => {
-    const [filterByGender, setFilterByGender] = useState(false);
-    const [filterByStatus, setFilterByStatus] = useState(false);
+const Filter = ({
+    filterOptions,
+    setFilterByStatusValue,
+    filterByStatus,
+    setCurrentPage, 
+    filterByGender,
+    setFilterByGenderValue
+}) => {
     const [showGenderDropdown, setShowGenderDropdown] = useState(false);
     const [showStatusDropdown, setShowStatusDropdown] = useState(false);
     const filterGenderValueRef = useRef(null);
     const filterStatusValueRef = useRef(null);
     const clearGenderFilterRef = useRef(null);
     const clearStatusFilterRef = useRef(null);
-
-    console.log('filter rendered')
 
     const clickOnGenderFilter = (event) => {
         if (clearGenderFilterRef.current && clearGenderFilterRef.current.contains(event.target)) {
@@ -29,21 +32,29 @@ const Filter = ({filterOptions}) => {
     }
 
     const clickOnStatusFilterItem = (status) => {
-        setFilterByStatus(status)
+        filterByStatus.current = status;
+        setFilterByStatusValue(status);
+        setCurrentPage(1);
     }
 
     const clickOnGenderFilterItem = (gender) => {
-        setFilterByGender(gender)
+        filterByGender.current = gender;
+        setFilterByGenderValue(gender);
+        setCurrentPage(1);
     }
 
     const clearFilterByGender = () => {
-        setFilterByGender(false);
+        filterByGender.current = false;
         setShowGenderDropdown(false);
+        setFilterByGenderValue('');
+        setCurrentPage(1);
     }
 
     const clearFilterByStatus = () => {
-        setFilterByStatus(false);
+        filterByStatus.current = false;
         setShowStatusDropdown(false);
+        setFilterByStatusValue('');
+        setCurrentPage(1);
     }
 
     useEffect(() => {
@@ -81,9 +92,9 @@ const Filter = ({filterOptions}) => {
                 ref={filterGenderValueRef}
             >
                     <span>
-                        {filterByGender ? filterByGender : 'Gender'}
+                        {filterByGender.current ? filterByGender.current : 'Gender'}
                     </span>
-                {filterByGender && (
+                {filterByGender.current && (
                     <div
                         className="filter__clear"
                         ref={clearGenderFilterRef}
@@ -115,9 +126,9 @@ const Filter = ({filterOptions}) => {
                 ref={filterStatusValueRef}
             >
                 <span>
-                    {filterByStatus ? filterByStatus : 'Status'}
+                    {filterByStatus.current ? filterByStatus.current : 'Status'}
                 </span>
-                {filterByStatus && (
+                {filterByStatus.current && (
                     <div
                         className="filter__clear"
                         ref={clearStatusFilterRef}

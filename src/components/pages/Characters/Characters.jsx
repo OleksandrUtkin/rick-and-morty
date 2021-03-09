@@ -5,6 +5,10 @@ import Filter from "../../UI/Filter";
 import NumberOfResults from "../../UI/NumberOfResults";
 
 const Characters = () => {
+    const filterByStatus = useRef(false);
+    const filterByGender = useRef(false);
+    const [filterByStatusValue, setFilterByStatusValue] = useState('');
+    const [filterByGenderValue, setFilterByGenderValue] = useState('');
     const [numberOfResults, setNumberOfResults] = useState(null);
     const [elRefs, setElRefs] = React.useState([]);
     const [pages, setPages] = useState(null);
@@ -53,7 +57,7 @@ const Characters = () => {
     useEffect(() => {
         setIsLoadingAllCharacters(true);
         const getCharacters = async () => {
-            const response = await fetch(`https://rickandmortyapi.com/api/character/?page=${currentPage}`);
+            const response = await fetch(`https://rickandmortyapi.com/api/character/?page=${currentPage}&status=${filterByStatusValue}&gender=${filterByGenderValue}`);
             await response.json().then(data => {
                 setPages(data.info.pages);
                 setCharactersArr(data.results);
@@ -63,7 +67,7 @@ const Characters = () => {
             await setIsLoadingAllCharacters(false);
         }
         getCharacters();
-    }, [currentPage]);
+    }, [currentPage, filterByStatusValue, filterByGenderValue]);
 
     // show full info
     const showFullInfoFunc = (id) => {
@@ -87,12 +91,16 @@ const Characters = () => {
         getCharacterInfo();
     }
 
-    console.log(isLoadingAllCharacters);
     if (isLoadingAllCharacters) return <p className='loading-characters'>Loading...</p>
     return (
         <>
             <Filter
                 filterOptions={filterOptions.current}
+                setFilterByStatusValue={setFilterByStatusValue}
+                filterByStatus={filterByStatus}
+                setCurrentPage={setCurrentPage}
+                filterByGender={filterByGender}
+                setFilterByGenderValue={setFilterByGenderValue}
             />
             <NumberOfResults numberOfResults={numberOfResults}/>
             <ul className='character'>
