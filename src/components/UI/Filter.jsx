@@ -4,7 +4,7 @@ const Filter = ({
     filterOptions,
     setFilterByStatusValue,
     filterByStatus,
-    setCurrentPage, 
+    setCurrentPage,
     filterByGender,
     setFilterByGenderValue
 }) => {

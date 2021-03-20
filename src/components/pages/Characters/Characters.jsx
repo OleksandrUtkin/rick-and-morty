@@ -35,16 +35,7 @@ const Characters = () => {
         'Status': ['Alive', 'Dead', 'Unknown']
     });
 
-    const filterValues = {
-        "Species": "?species=",
-        "Status": "?status=",
-        "Gender": "?gender="
-    }
-    const [filterQuery, setFilterQuery] = useState('');
-
     const [charactersArr, setCharactersArr] = useState([]);
-    const [fetchPages, setFetchPages] = useState(null);
-    const [currentFetchPage, setCurrentFetchPage] = useState(1);
     const [isLoadingAllCharacters, setIsLoadingAllCharacters] = useState(true);
 
     useEffect(() => {
